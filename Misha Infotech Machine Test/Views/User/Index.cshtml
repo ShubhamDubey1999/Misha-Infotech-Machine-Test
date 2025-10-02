@@ -1,66 +1,103 @@
 ﻿@model IEnumerable<Misha_Infotech_Machine_Test.Models.User>
-    <div class="container my-5">
-        <h3>List of Registered Users</h3>
-        <div class="row mb-3 align-items-center">
-            <div class="col-md-4 mb-2">
-                <input type="text" id="nameFilter" class="form-control" placeholder="Enter employee name">
-            </div>
-            <div class="col-md-3 mb-2">
-                <select id="genderFilter" class="form-select">
-                    <option value="">- Select Gender -</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <div class="col-md-3 mb-2">
-                <select id="stateFilter" class="form-select">
-                    <option value="">- Select State -</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="UP">UP</option>
-                </select>
-            </div>
-            <div class="col-md-2 mb-2">
-                <button id="filterBtn" class="btn btn-primary w-100">Search</button>
-            </div>
-        </div>
-        <div class="table-responsive">
-            <table id="userTable" class="table table-bordered table-striped">
-                <thead class="table-light">
-                    <tr>
-                        <th>Reg. No.</th>
-                        <th>Photo</th>
-                        <th>Name / Email </th>
-                        <th>Gender</th>
-                        <th>State</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Model){
-                        <td><input value="@item.Id"/></td>
-                        <td><input value="@item.Image"/></td>
-                        <td><a href="@item.Email">@item.Name</a></td>
-                        <td><input value="@item.Gender"/></td>
-                        <td><input value="@item.StateId"/></td>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="container my-5">
+	<h3>List of Registered Users</h3>
+	<div class="row mb-3 align-items-center">
+		<div class="col-md-4 mb-2">
+			<input type="text" id="nameFilter" class="form-control" placeholder="Enter employee name">
+		</div>
+		<div class="col-md-3 mb-2">
+			<select id="genderFilter" class="form-select">
+				<option value="">- Select Gender -</option>
+				<option value="Male">Male</option>
+				<option value="Female">Female</option>
+			</select>
+		</div>
+		<div class="col-md-3 mb-2">
+			<select id="stateFilter" class="form-select">
+			</select>
+		</div>
+		<div class="col-md-2 mb-2">
+			<button id="filterBtn" class="btn btn-primary w-100">Search</button>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="userTable" class="table table-bordered table-striped">
+			<thead class="table-light">
+				<tr>
+					<th>Reg. No.</th>
+					<th>Photo</th>
+					<th>Name / Email</th>
+					<th>Gender</th>
+					<th>State</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.Id</td>
+						<td>
+							@if (!string.IsNullOrEmpty(item.Image))
+							{
+								<img src="@item.Image" alt="User Photo" style="width:50px;height:50px;border-radius:5px;" />
+							}
+						</td>
+						<td>
+							<strong>@item.Name</strong><br />
+							<a href="mailto:@item.Email">@item.Email</a>
+						</td>
+						<td>@item.Gender</td>
+						<td>@item.StateName</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 
-    <script>
+</div>
 
-        // Filter functionality
-        $('#filterBtn').on('click', () => {
-            const nameFilter = $('#nameFilter').val().toLowerCase();
-            const genderFilter = $('#genderFilter').val();
-            const stateFilter = $('#stateFilter').val();
+<script>
 
-            const filtered = users.filter(user => {
-                return (!nameFilter || user.name.toLowerCase().includes(nameFilter)) &&
-                    (!genderFilter || user.gender === genderFilter) &&
-                    (!stateFilter || user.state === stateFilter);
-            });
+	$(document).ready(() => {
 
-            renderTable(filtered);
-        });
-    </script>
+		function GetStates() {
+			$.ajax({
+				url: "User/GetStates",
+				type: "GET",
+				success: (resp) => {
+					$("#stateFilter").empty();
+					var row = `<option value="">- Select State -</option>`;
+					resp.forEach(state => {
+						row += `<option value="${state.name}">${state.name}</option>`;
+					});
+					$("#stateFilter").append(row);
+				},
+				error: (err) => {
+					console.error("Error fetching states:", err);
+				}
+			});
+		}
+
+		$('#filterBtn').on('click', () => {
+			const nameFilter = $('#nameFilter').val().toLowerCase();
+			const genderFilter = $('#genderFilter').val();
+			const stateFilter = $('#stateFilter').val();
+
+			$('#userTable tbody tr').each(function () {
+				const row = $(this);
+				const name = row.find('td:eq(2) strong').text().toLowerCase();
+				const gender = row.find('td:eq(3)').text();
+				const state = row.find('td:eq(4)').text();
+
+				const show =
+					(!nameFilter || name.includes(nameFilter)) &&
+					(!genderFilter || gender === genderFilter) &&
+					(!stateFilter || state === stateFilter);
+
+				row.toggle(show);
+			});
+		});
+		GetStates();
+
+	});
+</script>

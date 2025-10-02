@@ -29,35 +29,28 @@ namespace MishaInfotech.API.Service
 
         public async Task<List<User>> GetUsers()
         {
-            var Users = await _db.Users.ToListAsync();
-            return Users;
+
+            var users = (from u in _db.Users
+                         join s in _db.States on u.StateId equals s.StateId
+                         select new User
+                         {
+                             Id = u.Id,
+                             Name = u.Name,
+                             Email = u.Email,
+                             Image = u.Image,
+                             Gender = u.Gender,
+                             StateName = s.Name
+                         }).ToList();
+            return users;
         }
         public async Task<List<States>> GetStates()
         {
-            List<States> States = new List<States>();
-            try
-            {
-                States = await _db.States.ToListAsync();
-            }
-            catch
-            {
-
-            }
-            return States;
+            return await _db.States.ToListAsync();
         }
         public async Task<List<Cities>> GetCities(int stateId)
         {
-            List<Cities> Cities = new List<Cities>();
-
-            try
-            {
-                Cities = await _db.Cities.Where(c => c.StateId == stateId).ToListAsync();
-            }
-            catch
-            {
-
-            }
-            return Cities;
+            return await _db.Cities.Where(c => c.StateId == stateId).ToListAsync();
         }
     }
 }
+

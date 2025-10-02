@@ -15,18 +15,36 @@ namespace Misha_Infotech_Machine_Test.Controllers
 			_client.BaseAddress = new Uri(configuration.GetSection("ApiAddress").Value!);
 		}
 
-		public async Task<IActionResult> Index()
-		{
-			List<User> users = new();
-			var request = await _client.GetAsync("UserAPI/GetUsers");
-			if (request.IsSuccessStatusCode)
-			{
-				var response = await request.Content.ReadAsStringAsync();
-				users = JsonConvert.DeserializeObject<List<User>>(response)!;
-			}
-			return View(users);
-		}
-		public IActionResult CreateUser()
+        public async Task<IActionResult> Index()
+        {
+            List<User> users = new();
+
+            try
+            {
+                var response = await _client.GetAsync("UserAPI/GetUsers");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    users = JsonConvert.DeserializeObject<List<User>>(json) ?? new List<User>();
+                    foreach (var user in users)
+                    {
+                        if (!string.IsNullOrEmpty(user.Image) && !user.Image.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                        {
+                            user.Image = $"{Request.Scheme}://{Request.Host}/{user.Image.TrimStart('/')}";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error: {ex.Message}");
+            }
+
+            return View(users);
+        }
+
+        public IActionResult CreateUser()
 		{
 			return View();
 		}

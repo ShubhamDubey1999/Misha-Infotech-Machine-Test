@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MishaInfotech.API.Models
 {
@@ -12,10 +13,12 @@ namespace MishaInfotech.API.Models
         public string Email { get; set; }
         public string? Mobile { get; set; }
         public string? Phone { get; set; }
-        public string StateId { get; set; }
-        public string CityId { get; set; }
+        public int StateId { get; set; }
+        public int CityId { get; set; }
         public string Hobbies { get; set; }
         public string? Image { get; set; }
         public bool Terms { get; set; }
+        [NotMapped]
+        public string? StateName { get; set; }
     }
 }

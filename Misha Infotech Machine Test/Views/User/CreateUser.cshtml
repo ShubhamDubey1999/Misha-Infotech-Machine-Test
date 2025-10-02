@@ -109,8 +109,8 @@
                 url: "GetStates",
                 type: "GET",
                 success: (resp) => {
-                    console.log(resp);
-                    var row = "";
+                    $("#state").empty();
+                    var row = `<option value="">- Select State -</option>`;
                     resp.forEach(state => {
                         row += `<option value="${state.stateId}">${state.name}</option>`;
 					});
@@ -122,7 +122,7 @@
             });
         }
 
-        GetStates(); // Call the function
+        GetStates();
 
     });
 
@@ -132,8 +132,8 @@
             type: "get",
             async: true,
             success: (resp) => {
-                console.log(resp);
-                var row = "";
+                $("#city").empty();
+                var row = `<option value="">- Select City -</option>`;
                 resp.forEach(state => {
                     row += `<option value="${state.cityId}">${state.name}</option>`;
                 });
