@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MishaInfotech", "Misha Infotech Machine Test\MishaInfotech.csproj", "{A2ACC3D7-6B59-45C4-B211-2B8AE11AACF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MishaInfotech.API", "MishaInfotech.API\MishaInfotech.API.csproj", "{2A1BF455-3F06-4C9D-9043-9F87095E119A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2ACC3D7-6B59-45C4-B211-2B8AE11AACF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2ACC3D7-6B59-45C4-B211-2B8AE11AACF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2ACC3D7-6B59-45C4-B211-2B8AE11AACF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2ACC3D7-6B59-45C4-B211-2B8AE11AACF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A1BF455-3F06-4C9D-9043-9F87095E119A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A1BF455-3F06-4C9D-9043-9F87095E119A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A1BF455-3F06-4C9D-9043-9F87095E119A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A1BF455-3F06-4C9D-9043-9F87095E119A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E83F3DB-393F-4117-BB08-07030591A714}
+	EndGlobalSection
+EndGlobal
